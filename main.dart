@@ -10,6 +10,11 @@ class Message {
   Message(this.length, this.seqNumber, this.msg);
 }
 
+/* @brief MockDataStream is a function that simulates a data stream from a file.
+ * It reads a file and yields random chunks of data. This happens when we are reading a file from a network or a disk or any other source that is not in memory and specifically when the files are too large to fit in memory.
+ * @param filePath: The path to the file that we want to read
+ * @return Stream<Uint8List>: A stream of Uint8List that represents the file content
+ */
 Stream<Uint8List> MockDataStream(String filePath) async* {
   await Future.delayed(Duration(seconds: 1));
   var LogiFile = File(filePath);
@@ -28,6 +33,11 @@ Stream<Uint8List> MockDataStream(String filePath) async* {
   }
 }
 
+/* @brief processLogiFile is a function that reads a logi.bin file and processes the content.
+ * It reads the file in chunks of data and processes the data to extract the messages.
+ * @param filePath: The path to the logi.bin file
+ * @return Future<List<Message>>: A list of Message objects that contains the length, sequence number, and the message
+ */
 Future<List<Message>> processLogiFile(String filePath) async {
   Completer<List<Message>> completer = Completer();
   List<Message> messages = [];
@@ -73,6 +83,11 @@ Future<List<Message>> processLogiFile(String filePath) async {
   return completer.future;
 }
 
+/* @brief test is a function that tests the output of the processLogiFile function.
+ * It checks if the output is as expected.
+ * @param results: A list of Message objects that contains the length, sequence number, and the message
+ * @return bool: A boolean value that indicates if the test passed or failed
+ */
 bool test(List<Message> results) {
   if (results.length != 3) {
     throw ("Test failed: Expected 3 messages, but got ${results.length}");
