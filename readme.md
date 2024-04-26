@@ -31,5 +31,6 @@ Branch *main* is showing the simplest method where we read the whole `logi.bin` 
 
 Branch *Lazy_load* is showing a more memory efficient method to load progressively from file, process it to show the result and then moving to the next.
 
-- As there are no incomplete message, there is no  need for searching for the packets, we can start step by step from first 4 bytes to get size of the string, the next 4 bytes to get the sequence number and then followed by n Bytes to read the message.
-- 
+- As there are no incomplete message, there is no  need for searching for the packets, we can start step by step from first 4 bytes to get size of the string, the next 4 bytes to get the sequence number and then followed by n Bytes to read the message. Otherwise, we would have to search for the start of the packet and then read the message. In these cases we should usually use a data encoding methods, I personally like COBS(Consistent Overhead Byte Stuffing).
+
+
