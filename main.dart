@@ -54,6 +54,9 @@ Future<List<Message>> processLogiFile(String filePath) async {
     localSmallBuffer.addAll(event);
     while (localSmallBuffer.length > 8) {
       // Preamble is received in the buffer
+      if (localSmallBuffer.length < 8 + length) {
+        break;
+      }
       if (length == -1) {
         // if we have not received the length yet
         ByteData lengthBytes =
