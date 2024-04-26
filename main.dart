@@ -14,6 +14,7 @@ Stream<Uint8List> MockDataStream(String filePath) async* {
   await Future.delayed(Duration(seconds: 1));
   var LogiFile = File(filePath);
   var LogiFileContent = LogiFile.readAsBytesSync();
+  // yield LogiFileContent; // A special case where we can yield the whole file content at once
   // Split the file into chunks of random data
   for (var i = 0; i < LogiFileContent.length;) {
     var randomByteLength = Random().nextInt(10);
@@ -41,7 +42,7 @@ Future<List<Message>> processLogiFile(String filePath) async {
   MockDataStream(filePath).listen((event) {
     print("Read a random chunk of data of length: ${event.length}");
     localSmallBuffer.addAll(event);
-    if (localSmallBuffer.length > 8) {
+    while (localSmallBuffer.length > 8) {
       // Preamble is received in the buffer
       if (length == -1) {
         // if we have not received the length yet
